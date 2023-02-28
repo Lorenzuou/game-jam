@@ -1,6 +1,4 @@
-
-import { Cat } from './cat.js';
-
+import Cat from "./cat.js";
 // Initialize Phaser3
 const config = {
   type: Phaser.AUTO,
@@ -19,6 +17,9 @@ const config = {
     update: update
   }
 };
+
+const game = new Phaser.Game(config);
+
 
 function preload() {
   this.load.spritesheet('cat', 'assets/dude.png', { frameWidth: 32, frameHeight: 32 });
@@ -40,7 +41,6 @@ function create() {
 function update() {
   // Call cat update method with cursors object
   cat.update(cursors);
-  #draw the cat
   cat.draw();
 
   //draw background

@@ -1,4 +1,4 @@
-class Cat extends Phaser.Physics.Arcade.Sprite {
+export default class Cat extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'cat');
 
@@ -6,22 +6,22 @@ class Cat extends Phaser.Physics.Arcade.Sprite {
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
 
-    // Set cat's properties
-    this.setBounce(0.2);
-    this.setCollideWorldBounds(true);
-
-    // Initialize cat's movement properties
-    this.moveSpeed = 200;
-    this.jumpSpeed = 400;
-    this.fallSpeed = 800;
-
+    this.setPlayer();
     // Create cat's animations
     this.createAnimations();
 
     // Set cat's initial animation state
     this.anims.play('cat-run');
-  }
 
+    this.player = this.scene.physics.add.sprite(100, 450, 'cat');
+
+
+  }
+  preload() {
+    this.load.spritesheet('cat', 'assets/dude.png', { frameWidth: 32, frameHeight: 32 });
+    this.load.image('sky', 'assets/sky.png');
+    this.load.image('cat-fall', 'assets/dude.png');
+  } 
   createAnimations() {
     // Create cat's animations
     this.anims.create({
@@ -46,48 +46,60 @@ class Cat extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
+
+
+
+
   update() {
-    // Update cat's sprite state based on its movement
-    if (this.body.velocity.y < 0) {
-      this.anims.play('cat-jump', true);
-    } else if (this.body.velocity.y > 0) {
-      this.anims.play('cat-fall', true);
-    } else if (this.body.velocity.x !== 0) {
-      this.anims.play('cat-run', true);
-    } else {
-      this.anims.stop();
-      this.setTexture('cat', 0);
-    }
-
-    // Check for collision with the ground
-    const onGround = this.body.blocked.down;
-
-    // Horizontal movement
-    if (this.scene.cursors.left.isDown) {
-      this.setVelocityX(-this.moveSpeed);
-      this.flipX = true;
-    } else if (this.scene.cursors.right.isDown) {
-      this.setVelocityX(this.moveSpeed);
-      this.flipX = false;
-    } else {
-      this.setVelocityX(0);
-    }
-
-    // Jumping
-    if (onGround && this.scene.cursors.up.isDown) {
-      this.setVelocityY(-this.jumpSpeed);
-    }
-
-    // Falling
-    if (!onGround && this.body.velocity.y > 0) {
-      this.setGravityY(this.fallSpeed);
-    } else {
-      this.setGravityY(0);
-    }
-  }
+   
 }
 
 
-export function loadCat(scene) {
-  scene.load.spritesheet('cat', 'assets/cat.png', { frameWidth: 32, frameHeight: 32 });
+setPlayer() {
+  this.player = this.scene.physics.add.sprite(100, 450, 'cat');
+  this.player.fallSpeed = 8;
+  this.player.jumpSpeed = 4;
+  this.player.moveSpeed = 4;
+  this.player.setCollideWorldBounds(true);
+
 }
+
+setKeys() {
+  this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+  this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+  this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+  this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+}       
+
+
+handlemovement() {
+  // Add input handling code
+  const vel = this.player.body.velocity;
+
+  if (this.left.isDown) {
+    this.player.setVelocityX(-this.moveSpeed);
+  } else if (this.right.isDown) {
+    if (this.player.body.onFloor()) {
+      this.player.anims.play('cat-run');
+    }else {
+      this.player.anims.play('cat-fall');
+      this.player.setVelocityY(this.moveSpeed);
+    }
+  } else {
+    this.player.setVelocityX(0);
+
+    if (this.player.body.onFloor()) {
+      this.player.anims.play('cat-run');
+      
+    }
+  } 
+  if (this.up.isDown && this.player.body.onFloor()) {
+    this.player.setVelocityY(-this.jumpSpeed);
+    this.player.anims.play('cat-jump');
+  } 
+    
+
+} } 
+
+
+ 
