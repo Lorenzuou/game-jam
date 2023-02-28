@@ -1,0 +1,41 @@
+// O que fazer ? 
+
+
+1 - O jogo vai ser um gato correndo por plataformas onde ele estará fugindo de algo que esta atras dele ( avalanche, ratos, etc..) 
+
+2 - O jogo vai ser em fases, cada fase é um mapa pre definido, cada mapa é um check point, o gato tem 7 vidas logo se perde-las começa tudo de novo 
+
+3 - Precisamos de sprites, audios e saber como vai funcionar o jogo 
+
+4 - Obstáculos, inimgos, itens, etc.. 
+
+    1 - Obstáculos
+
+    2 - Inimigos
+        *cachorros
+        *ratos malvados
+        *poça
+        *caixa de areia 
+
+    3 - Itens 
+        * item para voar
+        * item que deixa mais lento 
+        * item de double jump 
+        * item de invencibilidade
+        * sache  
+        * vida? 
+    
+5 - Cenários
+    * Gelo 
+    * Verde 
+    * Cidade? 
+
+6 - Menus 
+
+7 - Efeitos sonoros e músicas 
+
+
+
+Extras:
+    Skin de gato
+
