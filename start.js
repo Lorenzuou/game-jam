@@ -25,9 +25,13 @@ var lastJumpTime = 0;
 var jumpDelay = 500; // milliseconds
 
 
+
+
+
 function preload() {
   // Load assets
   this.load.image('sky', 'https://www.phaser.io/examples/v3/assets/skies/space3.png');
+
 }
 
 function create() {
@@ -36,10 +40,11 @@ function create() {
 
   // Add platforms
   platforms = this.physics.add.staticGroup();
-  platforms.create(400, 568, 'platform').setScale(2).refreshBody();
-  platforms.create(800, 400, 'platform');
-  platforms.create(50, 250, 'platform');
-  platforms.create(750, 220, 'platform');
+  createPlatform({x: 0, y: 550, width: 800, height: 50, scale: 1});
+  createPlatform({x: 0, y: 400, width: 400, height: 50, scale: 1});
+  createPlatform({x: 400, y: 250, width: 400, height: 50, scale: 1});
+  createPlatform({x: 0, y: 100, width: 400, height: 50, scale: 1});
+
 
   // Add player
   player = this.physics.add.sprite(0, 0, 'player');
@@ -71,4 +76,15 @@ function update() {
     player.setVelocityY(-330);
     lastJumpTime = Date.now();
   }
+}
+
+// Function to create a platform from its information in the JSON file
+function createPlatform(platformInfo) {
+  let platform = platforms.create(platformInfo.x, platformInfo.y, undefined);
+  platform.body.setSize(platformInfo.width, platformInfo.height);
+  platform.setOrigin(0, 0);
+  platform.displayWidth = platformInfo.width;
+  platform.displayHeight = platformInfo.height;
+  platform.setScale(platformInfo.scale);
+  platform.refreshBody();
 }
